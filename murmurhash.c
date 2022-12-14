@@ -19,17 +19,11 @@ uint64_t MurmurHash (const void* key, int len, uint64_t seed) {
     len -= 8;
   }
 
-  switch(len) {
-    case 7: h ^= data[6] << 48;
-    case 6: h ^= data[5] << 40;
-    case 5: h ^= data[4] << 32;
-    case 4: h ^= data[3] << 24;
-    case 3: h ^= data[2] << 16;
-    case 2: h ^= data[1] << 8;
-    case 1: h ^= data[0];
-            h *= m;
-  };
+  for (int i = len; len > 0; i--) {
+    h ^= data[len-1] << (8 * (len-1));
+  }
 
+  h *= m;
   h ^= h >> 13;
   h *= m;
   h ^= h >> 15;
